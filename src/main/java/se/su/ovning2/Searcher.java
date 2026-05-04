@@ -1,13 +1,22 @@
 package se.su.ovning2;
 
-import java.util.Collection;
-import java.util.SortedSet;
+import java.util.*;
 
 public class Searcher implements SearchOperations {
 
-  public Searcher(Collection<Recording> data) {
+  private Map<String, Set<Recording>> artistsWithRecordings = new HashMap<>();
 
-    Collection<Recording> recordings = data;
+  public Searcher(Collection<Recording> data) {
+    for (Recording r : data) {
+        if (artistsWithRecordings.containsKey(r.getArtist())) {
+            artistsWithRecordings.get(r.getArtist()).add(r);
+        } else {
+            Set<Recording> recordingsForArtist = new HashSet<>();
+            artistsWithRecordings.put(r.getArtist(), recordingsForArtist);
+            recordingsForArtist.add(r);
+        }
+    }
+
   }
 
   @Override
